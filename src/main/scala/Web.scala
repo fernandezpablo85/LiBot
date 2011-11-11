@@ -8,23 +8,27 @@ import util.Properties
 
 object Web
 {
+
+  val DEVELOPMENT_PORT = "8080";
+
   def main (args: Array[String])
   {
-    val port = Properties.envOrElse("PORT", "8080").toInt
+    val port = Properties.envOrElse("PORT", DEVELOPMENT_PORT).toInt
     ServerBuilder().codec(Http())
                    .name("libot-server")
                    .bindTo(new InetSocketAddress(port))
-                   .build(new Hello)
+                   .build(new LibotServlet)
   }
 }
 
-class Hello extends Service[HttpRequest, HttpResponse]
+class LibotServlet extends Service[HttpRequest, HttpResponse]
 {
   def apply (req: HttpRequest): Future[HttpResponse] = 
   {
+    val body = new String(req.getContent.array())
     val response = Response()
     response.setStatusCode(200)
-    response.setContentString("Hello DiDonato!")
+    response.setContentString(body)
     Future(response)
   }
 }
