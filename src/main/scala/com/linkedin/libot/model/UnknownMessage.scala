@@ -17,6 +17,7 @@ object UnknownMessage
                         "Circuits malfunctioning, please try again.",
                         "Whatever you say.",
                         "Hey that sounds like a good idea... no wait. It doesn't.",
-                        "Unable to process command.")
+                        "Unable to process command.",
+                        "Sure, there you go: http://bit.ly/7JJSz8")
 
 }
