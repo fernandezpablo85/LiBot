@@ -10,9 +10,10 @@ object Web
 {
   def main (args: Array[String])
   {
+    val port = Properties.envOrElse("PORT", "8080").toInt
     ServerBuilder().codec(Http())
                    .name("libot-server")
-                   .bindTo(new InetSocketAddress(8080))
+                   .bindTo(new InetSocketAddress(port))
                    .build(new Hello)
   }
 }
