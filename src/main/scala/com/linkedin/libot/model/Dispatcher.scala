@@ -10,10 +10,12 @@ object Dispatcher
 
   def handle(input : String, id : String) =
   {
-    val state = if (STATES.get(id) != null) STATES.get(id) else InitialState
+    val state = if (STATES.get(id) != null) STATES.get(id) else new InitialState
 
-    STATES.put(id, state.transition(input))
+    val newState = state.transition(input)
 
-    state.answer(input)
+    STATES.put(id, newState)
+
+    newState.answer
   }
 }
