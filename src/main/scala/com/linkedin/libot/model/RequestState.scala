@@ -4,7 +4,7 @@ package com.linkedin.libot.model
  * @author: Pablo Fernandez
  */
 
-abstract class Message
+trait RequestState
 {
-  def toString : String
+  def handle (input : String) : (String, RequestState)
 }
