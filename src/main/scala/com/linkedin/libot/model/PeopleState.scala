@@ -24,7 +24,7 @@ class FindPeopleState(name: String) extends InitialState
 
   override def getHelpState(term: String) : State =
   {
-     new InitialState { override def answer = "Specific help about FindPeopleState" }
+    new FindPeopleState(name) { override def answer = "Specific help about FindPeopleState" }
   }
 }
 
