@@ -4,13 +4,18 @@ package com.linkedin.libot.model
  * @author: Pablo Fernandez
  */
 
-class InitialState extends RequestState
+object InitialState extends State
 {
-  def handle (input: String) =
+  def answer (input: String): String =
+  {
+    UnknownMessageGenerator.next
+  }
+
+  def transition (input: String) =
   {
     input match
     {
-      case _ =>  (UnknownMessageGenerator.next, new InitialState)
+      case _ => InitialState
     }
   }
 }

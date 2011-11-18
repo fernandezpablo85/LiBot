@@ -6,15 +6,14 @@ package com.linkedin.libot.model
 
 object Dispatcher
 {
-  private val STATES = new java.util.concurrent.ConcurrentHashMap[String, RequestState]()
+  private val STATES = new java.util.concurrent.ConcurrentHashMap[String, State]()
 
   def handle(input : String, id : String) =
   {
-    val state = if (STATES.get(id) != null) STATES.get(id) else new InitialState
+    val state = if (STATES.get(id) != null) STATES.get(id) else InitialState
 
-    val (message, nextState) = state.handle(input)
-    STATES.put(id, nextState)
+    STATES.put(id, state.transition(input))
 
-    message
+    state.answer(input)
   }
 }
