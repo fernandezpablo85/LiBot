@@ -1,9 +1,8 @@
 package com.linkedin.libot.model
 
 /**
- * @author: Alejandro Bologna
+ * @author: Pablo Fernandez
  */
-
 class FindPeopleState(arguments : Map[String, String]) extends InitialState(arguments) with OAuthAuthorization
 {
   val numberMatcher = """(\d+)""".r
@@ -20,9 +19,4 @@ class FindPeopleState(arguments : Map[String, String]) extends InitialState(argu
   }
 
   override def help = "Specific help about FindPeopleState"
-}
-
-class SelectPeopleState(arguments: Map[String, String]) extends InitialState(arguments) with OAuthAuthorization
-{
-  override def answer: String = "I think you picked " + message
 }
