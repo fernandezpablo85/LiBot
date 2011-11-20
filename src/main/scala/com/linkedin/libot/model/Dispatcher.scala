@@ -12,11 +12,12 @@ object Dispatcher
 {
   private val STATES : ConcurrentMap[String, State] = new ConcurrentHashMap[String, State]
 
-  def handle(input : String, id : String) =
+  def handle(arguments : Map[String, String]) =
   {
-    val state = STATES.getOrElse(id, new InitialState)
-    val newState = state.transition(input)
-    STATES.put(id, newState)
+    val key = arguments.get("userkey").get
+    val state = STATES.getOrElse(key, new InitialState(arguments))
+    val newState = state.transition
+    STATES.put(key, newState)
     newState.answer
   }
 }

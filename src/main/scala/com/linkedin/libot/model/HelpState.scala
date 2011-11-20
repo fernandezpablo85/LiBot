@@ -4,10 +4,10 @@ package com.linkedin.libot.model
  * @author: Alejandro Bologna
  */
 
-class HelpState(term: String) extends InitialState
+class HelpState(arguments: Map[String, String]) extends InitialState(arguments)
 {
   override def answer: String =
   {
-    "Need some help on " + term + " huh? Try with 'find John'\nIt's all I have for now..."
+    "Need some help on " + message + " huh? Try with 'find John'\nIt's all I have for now..."
   }
 }
