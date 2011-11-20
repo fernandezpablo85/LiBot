@@ -6,8 +6,5 @@ package com.linkedin.libot.model
 
 class HelpState(arguments: Map[String, String]) extends InitialState(arguments)
 {
-  override def answer: String =
-  {
-    "Need some help on " + message + " huh? Try with 'find John'\nIt's all I have for now..."
-  }
+  override def answer: String = help
 }
