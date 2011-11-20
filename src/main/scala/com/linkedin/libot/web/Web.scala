@@ -8,6 +8,7 @@ import org.jboss.netty.handler.codec.http.{HttpRequest, HttpResponse}
 import java.net.InetSocketAddress
 import util.Properties
 import com.linkedin.libot.model.Dispatcher
+import com.linkedin.libot.util.ParamsExtractor
 
 object Web
 {
@@ -28,20 +29,11 @@ class LibotServlet extends Service[HttpRequest, HttpResponse]
   def apply (req: HttpRequest): Future[HttpResponse] = 
   {
     val rawInput = new String(req.getContent.array, "UTF-8")
-    val (user, message) = extractUserIdAndMessage(rawInput)
-    val responseMessage = Dispatcher.handle(message, user)
+    val params = ParamsExtractor.extract(rawInput, "userkey", "msg")
+    val responseMessage = Dispatcher.handle(params("msg"), params("userkey"))
     val response = Response()
     response.setStatusCode(200)
     response.setContentString(responseMessage.toString)
     Future(response)
-  }
-
-  def extractUserIdAndMessage(rawArguments : String) =
-  {
-    var argumentsList = rawArguments.split("&").toList
-    val userName = for(arg <- argumentsList; if arg.startsWith("userkey")) yield arg.substring(arg.indexOf("=")+1)
-    val message = for(arg <- argumentsList; if arg.startsWith("msg")) yield arg.substring(arg.indexOf("=")+1)
-
-    (userName(0), message(0))
   }
 }
