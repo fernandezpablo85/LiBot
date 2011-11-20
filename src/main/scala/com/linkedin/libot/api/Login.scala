@@ -30,6 +30,8 @@ object Login
     service.getAuthorizationUrl(token);
   }
 
+  def isAuthorized(userId : String) = (Auth.get(userId).accessToken != null)
+
   def authorize(userId : String, verifier : String) : Token =
   {
     val authInfo = Auth.get(userId)

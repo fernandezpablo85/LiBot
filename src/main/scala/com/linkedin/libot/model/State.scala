@@ -6,6 +6,6 @@ package com.linkedin.libot.model
 
 trait State
 {
-  def transition (input : String) : State
+  def transition : State
   def answer: String
 }

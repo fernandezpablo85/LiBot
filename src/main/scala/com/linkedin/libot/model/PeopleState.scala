@@ -4,42 +4,31 @@ package com.linkedin.libot.model
  * @author: Alejandro Bologna
  */
 
-class FindPeopleState(name: String) extends InitialState
+class FindPeopleState(arguments : Map[String, String]) extends AuthorizedState(arguments)
 {
   override def answer: String =
   {
-    "I found some guys matching " + name + "\n1.John Doe\n2.John McCarthy\n3.John Lennon\nYou pick"
+    "I found some guys matching " + message + "\n1.John Doe\n2.John McCarthy\n3.John Lennon\nYou pick"
   }
 
-  override def transition (input: String) =
+  override def transition =
   {
     val numberMatcher = """(\d+)""".r
     
-    input match
+    message match
     {
-      case numberMatcher(number) => new SelectPeopleState(number)
-      case _ => super.transition(input)
+      case numberMatcher(number) => new SelectPeopleState(arguments)
+      case _ => super.transition
     }
   }
 
-  override def getHelpState(term: String) : State =
+  override def getHelpState: State =
   {
-     new InitialState { override def answer = "Specific help about FindPeopleState" }
+     new InitialState(arguments) { override def answer = "Specific help about FindPeopleState" }
   }
 }
 
-class SelectPeopleState(selected: String) extends InitialState
+class SelectPeopleState(arguments: Map[String, String]) extends AuthorizedState(arguments)
 {
-  override def answer: String =
-  {
-    "I think you picked " + selected
-  }
-
-  override def transition (input: String) =
-  {
-    input match
-    {
-      case _ => super.transition(input)
-    }
-  }
+  override def answer: String = "I think you picked " + message
 }

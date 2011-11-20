@@ -4,22 +4,24 @@ package com.linkedin.libot.model
  * @author: Pablo Fernandez
  */
 
-class InitialState extends State
+class InitialState(arguments : Map[String, String]) extends State
 {
-  def answer: String = UnknownMessageGenerator.next
+  val message = arguments.get("msg").get
+  val user = arguments.get("userkey").get
 
-  def transition (input: String) =
+  def answer: String = UnknownMessageGenerator.next
+  def getHelpState : State = new HelpState(arguments)
+
+  def transition =
   {
     val FIND_MATCHER = """find (.*)""".r
     val HELP_MATCHER = """help (.*)""".r
 
-    input match
+    message match
     {
-      case HELP_MATCHER(term) => getHelpState(term)
-      case FIND_MATCHER(name) => new FindPeopleState(name)
-      case _ => new InitialState
+      case HELP_MATCHER(term) => getHelpState
+      case FIND_MATCHER(name) => new FindPeopleState(arguments)
+      case _ => new InitialState(arguments)
     }
   }
-
-  def getHelpState(term: String) : State = new HelpState(term)
 }

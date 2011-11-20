@@ -30,7 +30,7 @@ class LibotServlet extends Service[HttpRequest, HttpResponse]
   {
     val rawInput = new String(req.getContent.array, "UTF-8")
     val params = ParamsExtractor.extract(rawInput, "userkey", "msg")
-    val responseMessage = Dispatcher.handle(params("msg"), params("userkey"))
+    val responseMessage = Dispatcher.handle(params)
     val response = Response()
     response.setStatusCode(200)
     response.setContentString(responseMessage.toString)

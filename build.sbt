@@ -2,6 +2,8 @@ import com.typesafe.startscript.StartScriptPlugin
 
 seq(StartScriptPlugin.startScriptForClassesSettings: _*)
 
+organization := "org.linkedin.com"
+
 name := "libot"
 
 version := "1.0"
