@@ -6,10 +6,12 @@ import com.linkedin.libot.api.Login
  * @author: Pablo Fernandez
  */
 
-abstract class AuthorizedState(arguments : Map[String, String]) extends InitialState(arguments)
+trait AuthorizedState
 {
-  override def transition =
+  self : InitialState =>
+
+  abstract override def transition: State =
   {
-    if (Login.isAuthorized(user)) super.transition else new UnauthorizedState(arguments)
+    if (Login.isAuthorized(user)) self.transition else new UnauthorizedState(arguments)
   }
 }

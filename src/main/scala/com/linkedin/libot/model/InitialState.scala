@@ -4,8 +4,9 @@ package com.linkedin.libot.model
  * @author: Pablo Fernandez
  */
 
-class InitialState(arguments : Map[String, String]) extends State
+class InitialState(args : Map[String, String]) extends State
 {
+  val arguments = args
   val message = arguments.get("msg").get
   val user = arguments.get("userkey").get
 
