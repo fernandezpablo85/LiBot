@@ -6,10 +6,7 @@ package com.linkedin.libot.model
 
 class InitialState extends State
 {
-  def answer: String =
-  {
-    UnknownMessageGenerator.next
-  }
+  def answer: String = UnknownMessageGenerator.next
 
   def transition (input: String) =
   {
@@ -19,16 +16,10 @@ class InitialState extends State
     input match
     {
       case HELP_MATCHER(term) => getHelpState(term)
-
       case FIND_MATCHER(name) => new FindPeopleState(name)
-
       case _ => new InitialState
     }
   }
 
-  def getHelpState(term: String) : State =
-  {
-    new HelpState(term)
-  }
-
+  def getHelpState(term: String) : State = new HelpState(term)
 }
