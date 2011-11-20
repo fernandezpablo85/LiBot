@@ -4,7 +4,7 @@ package com.linkedin.libot.model
  * @author: Alejandro Bologna
  */
 
-class FindPeopleState(arguments : Map[String, String]) extends AuthorizedState(arguments)
+class FindPeopleState(arguments : Map[String, String]) extends InitialState(arguments) with AuthorizedState
 {
   val numberMatcher = """(\d+)""".r
 
@@ -22,7 +22,7 @@ class FindPeopleState(arguments : Map[String, String]) extends AuthorizedState(a
   override def help = "Specific help about FindPeopleState"
 }
 
-class SelectPeopleState(arguments: Map[String, String]) extends AuthorizedState(arguments)
+class SelectPeopleState(arguments: Map[String, String]) extends InitialState(arguments) with AuthorizedState
 {
   override def answer: String = "I think you picked " + message
 }
