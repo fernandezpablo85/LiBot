@@ -10,12 +10,14 @@ class InitialState(arguments : Map[String, String]) extends State
   val user = arguments.get("userkey").get
 
   def answer: String = UnknownMessageGenerator.next
+
+  def help = "Need some help on " + message + " huh? Try with 'find John'\nIt's all I have for now..."
   def getHelpState : State = new HelpState(arguments)
 
   def transition =
   {
-    val FIND_MATCHER = """find (.*)""".r
-    val HELP_MATCHER = """help (.*)""".r
+    val FIND_MATCHER = "find (.*)".r
+    val HELP_MATCHER = "help (.*)".r
 
     message match
     {

@@ -19,10 +19,7 @@ class FindPeopleState(arguments : Map[String, String]) extends AuthorizedState(a
     }
   }
 
-  override def getHelpState: State =
-  {
-     new InitialState(arguments) { override def answer = "Specific help about FindPeopleState" }
-  }
+  override def help = "Specific help about FindPeopleState"
 }
 
 class SelectPeopleState(arguments: Map[String, String]) extends AuthorizedState(arguments)
