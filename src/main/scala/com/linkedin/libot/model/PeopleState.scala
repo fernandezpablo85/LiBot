@@ -6,15 +6,12 @@ package com.linkedin.libot.model
 
 class FindPeopleState(arguments : Map[String, String]) extends AuthorizedState(arguments)
 {
-  override def answer: String =
-  {
-    "I found some guys matching " + message + "\n1.John Doe\n2.John McCarthy\n3.John Lennon\nYou pick"
-  }
+  val numberMatcher = """(\d+)""".r
+
+  override def answer = "I found some guys matching "+ message +"\n1.John Doe\n2.John McCarthy\n3.John Lennon\nYou pick"
 
   override def transition =
   {
-    val numberMatcher = """(\d+)""".r
-    
     message match
     {
       case numberMatcher(number) => new SelectPeopleState(arguments)
