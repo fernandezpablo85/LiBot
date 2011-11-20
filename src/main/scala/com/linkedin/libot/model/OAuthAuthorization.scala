@@ -6,7 +6,7 @@ import com.linkedin.libot.api.Login
  * @author: Pablo Fernandez
  */
 
-trait AuthorizedState
+trait OAuthAuthorization
 {
   self : InitialState =>
 
