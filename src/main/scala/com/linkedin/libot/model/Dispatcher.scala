@@ -1,21 +1,22 @@
 package com.linkedin.libot.model
 
+import java.util.concurrent.{ConcurrentHashMap}
+import collection.mutable.ConcurrentMap
+import collection.JavaConversions._
+
 /**
  * @author: Pablo Fernandez
  */
 
 object Dispatcher
 {
-  private val STATES = new java.util.concurrent.ConcurrentHashMap[String, State]()
+  private val STATES : ConcurrentMap[String, State] = new ConcurrentHashMap[String, State]
 
   def handle(input : String, id : String) =
   {
-    val state = if (STATES.get(id) != null) STATES.get(id) else new InitialState
-
+    val state = STATES.getOrElse(id, new InitialState)
     val newState = state.transition(input)
-
     STATES.put(id, newState)
-
     newState.answer
   }
 }
