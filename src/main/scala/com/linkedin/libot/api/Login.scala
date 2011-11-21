@@ -4,7 +4,6 @@ import scala.collection.JavaConversions._
 import java.util.concurrent.{ConcurrentHashMap, ConcurrentMap}
 import org.scribe.builder.ServiceBuilder
 import org.scribe.builder.api.LinkedInApi
-import com.sun.tools.internal.ws.wscompile.AuthInfo
 import org.scribe.model.{OAuthRequest, Verifier, Token}
 import java.lang.IllegalStateException
 
