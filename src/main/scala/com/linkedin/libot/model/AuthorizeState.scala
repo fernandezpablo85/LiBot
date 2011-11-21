@@ -2,11 +2,19 @@ package com.linkedin.libot.model
 
 import com.linkedin.libot.api.Login
 
-class AuthorizeState(arguments : Map[String, String]) extends InitialState(arguments) {
-
+case class AuthorizeState(context : Map[String, String]) extends State(context)
+{
   override def answer =
   {
-    Login.authorize(arguments.get("userkey").get, arguments.get("msg").get)
-    "You're now authorized!"
+    try
+    {
+      Login.authorize(user, context.get("verifier").get)
+      "You're now authorized!"
+    }
+    catch
+    {
+      case e: Exception => "There was an error trying to authorize you :("
+    }
+
   }
 }

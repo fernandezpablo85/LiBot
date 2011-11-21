@@ -21,11 +21,8 @@ object Dispatcher
   {
     val key = arguments.get("userkey").get
     val previousState = STATES.getOrElse(key, new InitialState(arguments))
-    val state = transition2(previousState, arguments)
-    state.updateArgs(arguments)
-
-    val newState = if (state.requiresAuth && !Login.isAuthorized(key)) new UnauthorizedState(arguments) else state
-
+    var newState = transition(previousState, arguments)
+    newState = if (newState.requiresAuth && !Login.isAuthorized(key)) new UnauthorizedState(arguments) else newState
     STATES.put(key, newState)
     newState.answer
   }
@@ -33,46 +30,25 @@ object Dispatcher
   def transition(previousState: State,  arguments : Map[String, String]): State =
   {
     val message = arguments.get("msg").get
-    println("Processing "+message+" with previous state: " + previousState.name)
+    println("Processing "+ message +" with previous state: " + previousState)
 
-    message match
+    previousState match
     {
-      case FIND_MATCHER(_) => previousState.name match
+      // The first matching correspond to the root level states
+      case InitialState(_) | AuthorizeState(_) | SelectPeopleState(_) => message match
       {
-        case "InitialState" | "FindPeopleState" => new FindPeopleState(arguments)
+        case FIND_MATCHER(term) => new FindPeopleState(arguments + (("findTerm", term)))
         case _ => new InitialState(arguments)
       }
-      case NUMBER_MATCHER(_) => previousState.name match
+      case UnauthorizedState(_) => message match
       {
-        case "FindPeopleState" => new SelectPeopleState(arguments)
-        case "UnauthorizedState" => new AuthorizeState(arguments)
-        case _ => new InitialState(arguments)
+        case NUMBER_MATCHER(number) => new AuthorizeState(arguments + (("verifier", number)))
+        case _ => new InitialState(arguments) { override def answer = "the verifier is a number you know..." }
       }
-      case _ => new InitialState(arguments)
-    }
-  }
-
-  def transition2(previousState: State,  arguments : Map[String, String]): State =
-  {
-    val message = arguments.get("msg").get
-    println("Processing "+ message +" with previous state: " + previousState.name)
-
-    previousState.name match
-    {
-      case "InitialState" => message match
+      case FindPeopleState(_) => message match
       {
-        case FIND_MATCHER(_) => new FindPeopleState(arguments)
-        case _ => new InitialState(arguments)
-      }
-      case "UnauthorizedState" => message match
-      {
-        case NUMBER_MATCHER(_) => new AuthorizeState(arguments)
-        case _ => new InitialState(arguments) {override def answer = "the verifier is a number you know..."}
-      }
-      case "FindPeopleState" => message match
-      {
-        case NUMBER_MATCHER(_) => new SelectPeopleState(arguments)
-        case FIND_MATCHER(_) => new FindPeopleState(arguments)
+        case NUMBER_MATCHER(number) => new SelectPeopleState(arguments + (("selection", number)) )
+        case FIND_MATCHER(term) => new FindPeopleState(arguments + (("findTerm", term)))
         case _ => new InitialState(arguments)
       }
       case _ => new InitialState(arguments)

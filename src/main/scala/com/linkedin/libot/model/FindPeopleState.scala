@@ -3,11 +3,9 @@ package com.linkedin.libot.model
 /**
  * @author: Pablo Fernandez
  */
-class FindPeopleState(arguments : Map[String, String]) extends InitialState(arguments)
+case class FindPeopleState(context : Map[String, String]) extends State(context)
 {
-  override def answer = "I found some guys matching "+ message +"\n1.John Doe\n2.John McCarthy\n3.John Lennon\nYou pick"
-
-  override def help = "Specific help about FindPeopleState"
-
+  val term = context.get("findTerm").get
+  override def answer = "I found some guys matching "+ term +"\n1.John Doe\n2.John McCarthy\n3.John Lennon\nPick one"
   override def requiresAuth = true
 }
