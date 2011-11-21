@@ -17,6 +17,14 @@ class ParamsExtractorsSpec extends Spec with ShouldMatchers
       val extracted = ParamsExtractor.extract(source, "user", "network")
       extracted("user") should be ("fernandezpablo85%40gmail.com")
       extracted("network") should be ("gtalk")
+      extracted.size should be (2)
+    }
+
+    it ("should extract params from this shitty string that's failing")
+    {
+      val extracted = ParamsExtractor.extract("foo=bar&userkey=fernandezpablo85&msg=bar foo")
+      extracted("foo") should be ("bar")
+      extracted("msg") should be ("bar foo")
     }
   }
 }

@@ -18,7 +18,7 @@ class LibotServlet extends Service[HttpRequest, HttpResponse]
   def apply (req: HttpRequest): Future[HttpResponse] =
   {
     val rawInput = new String(req.getContent.array, "UTF-8")
-    val params = ParamsExtractor.extract(rawInput, "userkey", "msg")
+    val params = ParamsExtractor.extract(rawInput)
     val responseMessage = Dispatcher.handle(params)
     val response = Response()
     response.setStatusCode(200)

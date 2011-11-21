@@ -16,6 +16,7 @@ object Dispatcher
   {
     val key = arguments.get("userkey").get
     val state = STATES.getOrElse(key, new InitialState(arguments))
+    state.updateArgs(arguments)
     val newState = state.transition
     STATES.put(key, newState)
     newState.answer

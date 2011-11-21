@@ -23,21 +23,25 @@ object Login
 
   def getAuthorizationUrl(id : String) =
   {
+    println("Getting token for: "+id)
     val token = service.getRequestToken
     val authInfo = new AuthInfo(userId = id, requestToken = token)
     Auth.put(id, authInfo)
 
+    println("Got Token:"+token)
     service.getAuthorizationUrl(token);
   }
 
-  def isAuthorized(userId : String) = (Auth.get(userId).accessToken != null)
+  def isAuthorized(userId : String) = (Auth.get(userId) !=null && Auth.get(userId).accessToken != null)
 
   def authorize(userId : String, verifier : String) : Token =
   {
+    println("Authorizing: "+userId+" with verifier: "+verifier)
     val authInfo = Auth.get(userId)
     assert(authInfo != null)
     assert(authInfo.requestToken != null)
 
+    println("Request Token is: "+authInfo.requestToken)
     if (authInfo.accessToken != null)
     {
       return authInfo.accessToken;

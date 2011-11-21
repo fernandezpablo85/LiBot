@@ -14,7 +14,7 @@ class FindPeopleState(arguments : Map[String, String]) extends InitialState(argu
     message match
     {
       case numberMatcher(number) => new SelectPeopleState(arguments)
-      case _ => super.transition
+      case _ => new InitialState(arguments)
     }
   }
 

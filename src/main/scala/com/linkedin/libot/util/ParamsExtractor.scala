@@ -5,11 +5,14 @@ package com.linkedin.libot.util
  */
 object ParamsExtractor
 {
-  private val NAME_VALUE_REGEX = "(.*)=(.*)".r
+  val NAME_VALUE_REGEX = """(.*)=(.*)""".r
 
   def extract(source : String, argNames : String*) =
   {
-    def shouldYield(name : String) = argNames.map(_.toLowerCase).contains(name.toLowerCase)
+    require(source != null && source.length > 0, "source must be a non-empty string")
+    println("Extracting parameters from: '"+source+"'")
+
+    def shouldYield(name : String) = if (argNames.isEmpty) true else argNames.map(_.toLowerCase).contains(name.toLowerCase)
 
     val arguments = source.split("&").toList
     
