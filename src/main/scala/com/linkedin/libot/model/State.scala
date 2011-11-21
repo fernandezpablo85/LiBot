@@ -1,13 +1,10 @@
 package com.linkedin.libot.model
 
-/**
- * @author: Pablo Fernandez
- */
-
-trait State
+abstract class State(context: Map[String, String])
 {
-  def name: String
+  val user = context.get("userkey").get
+  val message = context.get("msg").get
+
   def answer: String
-  def updateArgs (args : Map[String, String]) : Unit
-  def requiresAuth: Boolean
+  def requiresAuth: Boolean = false
 }
