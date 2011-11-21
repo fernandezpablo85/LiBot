@@ -6,7 +6,8 @@ package com.linkedin.libot.model
 
 trait State
 {
-  def transition : State;
+  def name: String
   def answer: String
   def updateArgs (args : Map[String, String]) : Unit
+  def requiresAuth: Boolean
 }
