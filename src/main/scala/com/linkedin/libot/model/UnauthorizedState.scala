@@ -10,14 +10,4 @@ class UnauthorizedState(arguments : Map[String, String]) extends InitialState(ar
 {
   val url = Login.getAuthorizationUrl(user)
   override def answer = "must authorize here: "+url
-
-  override def transition =
-  {
-    message match {
-      case verifier : String => {
-        Login.authorize(user, verifier)
-        new InitialState(arguments) { override def answer = "Cool! now you're authorized :)"}
-      }
-    }
-  }
 }
