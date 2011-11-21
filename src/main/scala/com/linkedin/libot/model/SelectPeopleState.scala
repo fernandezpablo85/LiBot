@@ -9,8 +9,8 @@ class SelectPeopleState(choices: Map[Int, String]) extends State
   {
     val choice = getMessage(args).toInt
     val user = getUser(args)
-    StateRegistry.update(user, InitialState)
+    StateRegistry.update(user, new PromptToGoBackState(this))
 
-    "your pick was: " + choices.getOrElse(choice, "<undefined>")
+    "your pick was: " + choices.getOrElse(choice, "<undefined>") + ". Wanna try another? y/n"
   }
 }

@@ -1,5 +1,7 @@
 package com.linkedin.libot.util
 
+import java.net.URLDecoder
+
 /**
  * @author: Pablo Fernandez
  */
@@ -21,8 +23,10 @@ object ParamsExtractor
         arg <- arguments
         val NAME_VALUE_REGEX(name, value) = arg
         if shouldYield(name)
-      } yield name -> value
+      } yield d(name) -> d(value)
 
     result.toMap
   }
+
+  def d (s: String) = URLDecoder.decode(s, "UTF-8")
 }

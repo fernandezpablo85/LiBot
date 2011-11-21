@@ -15,7 +15,7 @@ class ParamsExtractorsSpec extends Spec with ShouldMatchers
     it("should extract parameters from source")
     {
       val extracted = ParamsExtractor.extract(source, "user", "network")
-      extracted("user") should be ("fernandezpablo85%40gmail.com")
+      extracted("user") should be ("fernandezpablo85@gmail.com")
       extracted("network") should be ("gtalk")
       extracted.size should be (2)
     }
@@ -25,6 +25,13 @@ class ParamsExtractorsSpec extends Spec with ShouldMatchers
       val extracted = ParamsExtractor.extract("foo=bar&userkey=fernandezpablo85&msg=bar foo")
       extracted("foo") should be ("bar")
       extracted("msg") should be ("bar foo")
+    }
+
+    it ("should properly url decode stuff like '+'")
+    {
+      val extracted = ParamsExtractor.extract("foo=bar&userkey=fernandezpablo85&msg=bar+foo+baz")
+      extracted("foo") should be ("bar")
+      extracted("msg") should be ("bar foo baz")
     }
   }
 }
