@@ -1,10 +1,9 @@
 package com.linkedin.libot.model
 
-abstract class State(context: Map[String, String])
+trait State
 {
-  val user = context.get("userkey").get
-  val message = context.get("msg").get
-
-  def answer: String
-  def requiresAuth: Boolean = false
+  def handle (args : Map[String, String]) : String
+  def requiresAuth = false
+  def getUser (args : Map[String, String]) : String = args.get("userkey").get
+  def getMessage (args : Map[String, String]) : String = args.get("msg").get
 }

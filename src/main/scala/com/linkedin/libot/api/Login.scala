@@ -1,6 +1,6 @@
 package com.linkedin.libot.api
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConversions.asScalaMap
 import java.util.concurrent.{ConcurrentHashMap, ConcurrentMap}
 import org.scribe.builder.ServiceBuilder
 import org.scribe.builder.api.LinkedInApi
